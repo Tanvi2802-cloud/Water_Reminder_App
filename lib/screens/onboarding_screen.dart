@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -12,7 +13,11 @@ class OnboardingScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xffEAF8FF), Color(0xffCFEFFF), Color(0xff9DD6FF)],
+            colors: [
+              Color(0xffEAF8FF),
+              Color(0xffCFEFFF),
+              Color(0xff9DD6FF),
+            ],
           ),
         ),
         child: SafeArea(
@@ -22,11 +27,17 @@ class OnboardingScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 15),
 
+                // Skip Button
                 Align(
                   alignment: Alignment.topRight,
                   child: TextButton(
                     onPressed: () {
-                      // Home Screen नंतर जोडू
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
+                        ),
+                      );
                     },
                     child: const Text(
                       "Skip",
@@ -58,7 +69,10 @@ class OnboardingScreen extends StatelessWidget {
                     ],
                   ),
                   child: const Center(
-                    child: Text("💧", style: TextStyle(fontSize: 130)),
+                    child: Text(
+                      "💧",
+                      style: TextStyle(fontSize: 130),
+                    ),
                   ),
                 ),
 
@@ -77,7 +91,8 @@ class OnboardingScreen extends StatelessWidget {
                 const SizedBox(height: 18),
 
                 const Text(
-                  "Track your daily water intake,\nbuild healthy habits and stay refreshed every day.",
+                  "Track your daily water intake,\n"
+                  "build healthy habits and stay refreshed every day.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 17,
@@ -88,12 +103,18 @@ class OnboardingScreen extends StatelessWidget {
 
                 const Spacer(),
 
+                // Get Started Button
                 SizedBox(
                   width: double.infinity,
                   height: 60,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Home Screen नंतर जोडू
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff0A84FF),

@@ -13,7 +13,10 @@ class AppTheme {
         brightness: Brightness.light,
       ),
 
-      textTheme: GoogleFonts.poppinsTextTheme(),
+      // ✅ SAFE Google Fonts usage
+      textTheme: GoogleFonts.poppinsTextTheme(
+        ThemeData.light().textTheme,
+      ),
 
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
