@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'theme/app_theme.dart';
 import 'screens/splash_screen.dart';
+import 'notification_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 🔔 Init notifications (IMPORTANT)
+  await NotificationService.init();
+
   runApp(const AquaNovaApp());
 }
 

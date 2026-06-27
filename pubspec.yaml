@@ -14,11 +14,14 @@ dependencies:
 
   cupertino_icons: ^1.0.6
 
-  # 🌊 Water wave animation package
+  # 🌊 Water wave animation
   wave: ^0.2.2
 
-  # 🔤 Google Fonts (IMPORTANT)
+  # 🔤 Google Fonts
   google_fonts: ^6.2.1
+
+  # 🔔 Local Notifications (PRO FEATURE)
+  flutter_local_notifications: ^17.2.2
 
 dev_dependencies:
   flutter_test:
