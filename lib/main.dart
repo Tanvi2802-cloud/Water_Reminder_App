@@ -4,7 +4,9 @@ import 'services/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await NotificationService.init();
+
   runApp(const AquaNovaApp());
 }
 
@@ -16,10 +18,7 @@ class AquaNovaApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AquaNova',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Poppins',
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const SplashScreen(),
     );
   }
