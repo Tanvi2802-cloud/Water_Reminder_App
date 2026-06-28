@@ -26,10 +26,7 @@ class _GoalSelectionScreenState extends State<GoalSelectionScreen> {
         transitionDuration: const Duration(milliseconds: 700),
         pageBuilder: (_, __, ___) => const HomeScreen(),
         transitionsBuilder: (_, animation, __, child) {
-          return FadeTransition(
-            opacity: animation,
-            child: child,
-          );
+          return FadeTransition(opacity: animation, child: child);
         },
       ),
     );
@@ -50,9 +47,10 @@ class _GoalSelectionScreenState extends State<GoalSelectionScreen> {
                 "Set Your Daily Goal 🎯",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold,
                   color: Color(0xff083B66),
+                  height: 1.2,
                 ),
               ),
 
@@ -62,36 +60,44 @@ class _GoalSelectionScreenState extends State<GoalSelectionScreen> {
                 "Choose how much water you want to drink every day",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.black54,
                 ),
               ),
 
               const SizedBox(height: 40),
 
-              // 💧 WATER DISPLAY
+              // 💧 PREMIUM GLASS WATER CARD
               Container(
-                height: 200,
-                width: 200,
+                height: 210,
+                width: 210,
                 decoration: BoxDecoration(
-                  color: Colors.white,
                   shape: BoxShape.circle,
+                  color: Colors.white.withOpacity(0.7),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.9),
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.blue.withOpacity(0.15),
-                      blurRadius: 30,
+                      color: Colors.blue.withOpacity(0.12),
+                      blurRadius: 35,
                       spreadRadius: 5,
                     )
                   ],
                 ),
                 child: Center(
-                  child: Text(
-                    "💧\n${selectedGoal.toStringAsFixed(1)} L",
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 34,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff0A84FF),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: Text(
+                      key: ValueKey(selectedGoal),
+                      "💧\n${selectedGoal.toStringAsFixed(1)} L",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff0A84FF),
+                        height: 1.2,
+                      ),
                     ),
                   ),
                 ),
@@ -99,7 +105,7 @@ class _GoalSelectionScreenState extends State<GoalSelectionScreen> {
 
               const SizedBox(height: 40),
 
-              // 🎯 GOAL OPTIONS
+              // 🎯 GOAL OPTIONS (premium chips)
               Wrap(
                 spacing: 12,
                 runSpacing: 12,
@@ -110,30 +116,32 @@ class _GoalSelectionScreenState extends State<GoalSelectionScreen> {
                     onTap: () => selectGoal(g),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
+                        horizontal: 20,
                         vertical: 12,
                       ),
                       decoration: BoxDecoration(
                         color: isSelected
                             ? const Color(0xff0A84FF)
-                            : Colors.white,
-                        borderRadius: BorderRadius.circular(18),
+                            : Colors.white.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: const Color(0xff0A84FF),
                         ),
                         boxShadow: [
-                          BoxShadow(
-                            color: Colors.blue.withOpacity(0.08),
-                            blurRadius: 10,
-                          )
+                          if (isSelected)
+                            BoxShadow(
+                              color: Colors.blue.withOpacity(0.25),
+                              blurRadius: 15,
+                            )
                         ],
                       ),
                       child: Text(
                         "${g.toStringAsFixed(1)} L",
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                           color: isSelected
                               ? Colors.white
                               : const Color(0xff0A84FF),
@@ -146,23 +154,25 @@ class _GoalSelectionScreenState extends State<GoalSelectionScreen> {
 
               const Spacer(),
 
-              // 🚀 BUTTON
+              // 🚀 PREMIUM BUTTON
               SizedBox(
                 width: double.infinity,
-                height: 55,
+                height: 58,
                 child: ElevatedButton(
                   onPressed: goToHome,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff0A84FF),
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                   child: const Text(
                     "Set My Goal 🚀",
                     style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5,
                     ),
                   ),
                 ),

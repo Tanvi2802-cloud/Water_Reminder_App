@@ -6,7 +6,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -14,14 +14,26 @@ dependencies:
 
   cupertino_icons: ^1.0.6
 
-  # 🌊 Water wave animation
+  # 🌊 Liquid / Wave animation (better maintained than old wave)
   wave: ^0.2.2
 
-  # 🔤 Google Fonts
+  # 🔤 Premium typography
   google_fonts: ^6.2.1
 
-  # 🔔 Local Notifications (PRO FEATURE)
+  # 🔔 Notifications (core feature)
   flutter_local_notifications: ^17.2.2
+
+  # ⏰ timezone support (IMPORTANT for scheduled notifications)
+  timezone: ^0.9.4
+
+  # 🎉 Confetti animation (badges system)
+  confetti: ^0.8.0
+
+  # 📊 Graphs (Apple Health style charts)
+  fl_chart: ^0.69.0
+
+  # 💧 Smooth UI animations (optional but premium feel)
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'onboarding_screen.dart';
 
@@ -10,43 +11,41 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _fade;
-  late Animation<double> _scale;
+  late AnimationController controller;
+  late Animation<double> fade;
+  late Animation<double> scale;
+
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
 
-    // 🎬 Animation controller
-    _controller = AnimationController(
+    controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1800),
+      duration: const Duration(seconds: 2),
     );
 
-    _fade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
+    fade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: controller, curve: Curves.easeIn),
     );
 
-    _scale = Tween<double>(begin: 0.7, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
+    scale = Tween<double>(begin: 0.85, end: 1).animate(
+      CurvedAnimation(parent: controller, curve: Curves.easeOutBack),
     );
 
-    _controller.forward();
+    controller.forward();
 
-    // ⏳ Navigate AFTER animation completes (IMPORTANT FIX)
-    Future.delayed(const Duration(milliseconds: 2500), () {
+    // safer navigation (avoid memory leak)
+    _timer = Timer(const Duration(seconds: 3), () {
       if (mounted) {
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 900),
+            transitionDuration: const Duration(milliseconds: 700),
             pageBuilder: (_, __, ___) => const OnboardingScreen(),
             transitionsBuilder: (_, animation, __, child) {
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
+              return FadeTransition(opacity: animation, child: child);
             },
           ),
         );
@@ -56,7 +55,8 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    _controller.dispose();
+    controller.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -66,85 +66,66 @@ class _SplashScreenState extends State<SplashScreen>
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xffE0F7FA),
-              Color(0xff4FC3F7),
-              Color(0xff0288D1),
-            ],
+            colors: [Color(0xff81D4FA), Color(0xff0288D1)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: Center(
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              return FadeTransition(
-                opacity: _fade,
-                child: ScaleTransition(
-                  scale: _scale,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // 💧 ICON CARD
-                      Container(
-                        height: 140,
-                        width: 140,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.blue.withOpacity(0.2),
-                              blurRadius: 30,
-                              spreadRadius: 5,
-                            )
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.water_drop_rounded,
-                          size: 80,
-                          color: Color(0xff0288D1),
-                        ),
+          child: FadeTransition(
+            opacity: fade,
+            child: ScaleTransition(
+              scale: scale,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // 💧 Premium icon container (glass style)
+                  Container(
+                    padding: const EdgeInsets.all(25),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withOpacity(0.2),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.4),
                       ),
-
-                      const SizedBox(height: 25),
-
-                      const Text(
-                        "AquaNova",
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          letterSpacing: 1,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 30,
                         ),
-                      ),
-
-                      const SizedBox(height: 8),
-
-                      const Text(
-                        "Stay Hydrated. Stay Healthy.",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white70,
-                        ),
-                      ),
-
-                      const SizedBox(height: 40),
-
-                      const SizedBox(
-                        height: 25,
-                        width: 25,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 3,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.water_drop,
+                      size: 90,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              );
-            },
+
+                  const SizedBox(height: 20),
+
+                  const Text(
+                    "AquaNova",
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  const Text(
+                    "Hydrate • Track • Glow",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white70,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

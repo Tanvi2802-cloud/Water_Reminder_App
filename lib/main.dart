@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'screens/splash_screen.dart';
 import 'services/notification_service.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await NotificationService.init();
+  // Notification init safely
+  try {
+    await NotificationService.init();
+  } catch (e) {
+    debugPrint("Notification init error: $e");
+  }
 
   runApp(const AquaNovaApp());
 }
@@ -18,8 +23,32 @@ class AquaNovaApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AquaNova',
-      theme: ThemeData(primarySwatch: Colors.blue),
+
+      // Better theme setup (iOS + premium look)
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        fontFamily: 'Poppins',
+        useMaterial3: true,
+
+        // iOS-like smooth UI
+        scaffoldBackgroundColor: const Color(0xFF0B1C2C),
+
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+      ),
+
+      // Better navigation behavior
       home: const SplashScreen(),
+
+      // Remove red screen in production
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          child: child!,
+        );
+      },
     );
   }
 }

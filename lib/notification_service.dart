@@ -4,16 +4,27 @@ class NotificationService {
   static final FlutterLocalNotificationsPlugin _plugin =
       FlutterLocalNotificationsPlugin();
 
-  static Future init() async {
-    const android = AndroidInitializationSettings('@mipmap/ic_launcher');
+  /// INIT (FIXED + SAFE)
+  static Future<void> init() async {
+    const AndroidInitializationSettings android =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    const settings = InitializationSettings(android: android);
+    const InitializationSettings settings =
+        InitializationSettings(android: android);
 
     await _plugin.initialize(settings);
+
+    // 🔥 Android 13+ permission fix
+    final androidImpl = _plugin.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>();
+
+    await androidImpl?.requestNotificationsPermission();
   }
 
-  static Future showWaterNotification() async {
-    const androidDetails = AndroidNotificationDetails(
+  /// 💧 INSTANT WATER NOTIFICATION
+  static Future<void> showWaterNotification() async {
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
       'water_channel',
       'Water Reminder',
       channelDescription: 'Reminds user to drink water',
@@ -21,7 +32,8 @@ class NotificationService {
       priority: Priority.high,
     );
 
-    const details = NotificationDetails(android: androidDetails);
+    const NotificationDetails details =
+        NotificationDetails(android: androidDetails);
 
     await _plugin.show(
       0,
