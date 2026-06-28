@@ -1,0 +1,33 @@
+name: aqua_nova
+description: A premium water reminder app
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+
+  # 🌊 Water wave animation
+  wave: ^0.2.2
+
+  # 🔤 Google Fonts
+  google_fonts: ^6.2.1
+
+  # 🔔 Local Notifications (PRO FEATURE)
+  flutter_local_notifications: ^17.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
